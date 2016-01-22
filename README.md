@@ -50,15 +50,15 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 [ico-version]: https://img.shields.io/packagist/v/paybreak/rpc.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/paybreak/rpc/master.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/PayBreak/rpc/master.svg?style=flat-square
 [ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/paybreak/rpc.svg?style=flat-square
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/paybreak/rpc.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/paybreak/rpc.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/paybreak/rpc
-[link-travis]: https://travis-ci.org/paybreak/rpc
-[link-scrutinizer]: https://scrutinizer-ci.com/g/paybreak/rpc/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/paybreak/rpc
+[link-travis]: https://travis-ci.org/PayBreak/rpc
+[link-scrutinizer]: https://scrutinizer-ci.com/g/PayBreak/rpc/code-structure
+[link-code-quality]: https://scrutinizer-ci.com/g/PayBreak/rpc
 [link-downloads]: https://packagist.org/packages/paybreak/rpc
 [link-author]: https://github.com/PayBreak
 [link-contributors]: ../../contributors
