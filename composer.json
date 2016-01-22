@@ -7,7 +7,8 @@
     "homepage": "https://github.com/PayBreak/rpc",
     "license": "MIT",
     "require": {
-        "php" : ">=5.5.0"
+        "php" : ">=5.5.0",
+        "paybreak/foundation": "^0.7.0"
     },
     "require-dev": {
         "phpunit/phpunit" : "4.*",
