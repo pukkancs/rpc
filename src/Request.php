@@ -16,7 +16,7 @@ namespace PayBreak\Rpc;
  * @author WN
  * @package PayBreak\Rpc
  */
-class Request
+final class Request
 {
     private static $instance;
 
@@ -29,11 +29,11 @@ class Request
      */
     public static function getInstance()
     {
-        if (null === static::$instance) {
-            static::$instance = new static();
+        if (null === self::$instance) {
+            self::$instance = new self();
         }
 
-        return static::$instance;
+        return self::$instance;
     }
 
     private function __construct() {

@@ -15,8 +15,6 @@ use PayBreak\Rpc\Validation;
 /**
  * ValidationTest
  *
- * @todo paramIsNumeric() and processDateParam()
- *
  * @author WN
  */
 class ValidationTest extends \PHPUnit_Framework_TestCase
@@ -37,8 +35,8 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
 
     public function testParamExists()
     {
-        $this->assertTrue(Validation::paramExists('xxx', ['xxx' => 1]));
-        $this->assertTrue(Validation::paramExists('xxx', ['xxx' => '']));
+        $this->assertSame(1, Validation::paramExists('xxx', ['xxx' => 1]));
+        $this->assertSame('', Validation::paramExists('xxx', ['xxx' => '']));
     }
 
     public function testFalseParamExists()
@@ -55,10 +53,10 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
 
     public function testParamExistsAndNotEmpty()
     {
-        $this->assertTrue(Validation::paramExistsAndNotEmpty('xxx', ['xxx' => 1]));
-        $this->assertTrue(Validation::paramExistsAndNotEmpty('xxx', ['xxx' => 0]));
-        $this->assertTrue(Validation::paramExistsAndNotEmpty('xxx', ['xxx' => false]));
-        $this->assertTrue(Validation::paramExistsAndNotEmpty('xxx', ['xxx' => null]));
+        $this->assertSame(1, Validation::paramExistsAndNotEmpty('xxx', ['xxx' => 1]));
+        $this->assertSame(0, Validation::paramExistsAndNotEmpty('xxx', ['xxx' => 0]));
+        $this->assertSame(false, Validation::paramExistsAndNotEmpty('xxx', ['xxx' => false]));
+        $this->assertSame(null, Validation::paramExistsAndNotEmpty('xxx', ['xxx' => null]));
     }
 
     public function testFalseParamExistsAndNotEmpty()
@@ -75,7 +73,7 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
 
     public function testParamExistsAndIsArray()
     {
-        $this->assertTrue(Validation::paramExistsAndIsArray('xxx', ['xxx' => []]));
+        $this->assertSame([], Validation::paramExistsAndIsArray('xxx', ['xxx' => []]));
     }
 
     public function testNotParamExistsAndIsArray()
@@ -98,7 +96,7 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
 
     public function testParamExistsAndNotEmptyArray()
     {
-        $this->assertTrue(Validation::paramExistsAndNotEmptyArray('xxx', ['xxx' => [123]]));
+        $this->assertSame([123], Validation::paramExistsAndNotEmptyArray('xxx', ['xxx' => [123]]));
     }
 
     public function testFalseParamExistsAndNotEmptyArray()

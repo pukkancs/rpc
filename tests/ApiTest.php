@@ -38,6 +38,7 @@ class TestTest extends \PHPUnit_Framework_TestCase
             'test'  => [self::class, 'fakeAction'],
             'none'  => [self::class, 'nonExisting'],
             'exc'   => [self::class, 'actionException'],
+            'str'   => [self::class, 'actionString'],
         ];
     }
 
@@ -64,6 +65,11 @@ class TestTest extends \PHPUnit_Framework_TestCase
     private function actionException(array $params)
     {
         throw new \Exception('Test 123');
+    }
+
+    private function actionString()
+    {
+        return 'acdf';
     }
 
     public function testNotAuthenticated()
@@ -130,5 +136,17 @@ class TestTest extends \PHPUnit_Framework_TestCase
         $this->executeCall();
 
         $response->verifyInvokedOnce('sendJson', [['error' => 'Test 123'], 500]);
+    }
+
+    public function testWrongResponse()
+    {
+        $this->params = ['aaa'];
+        $this->action = 'str';
+        $this->auth = true;
+        $response = test::double('PayBreak\Rpc\Response', ['sendJson' => true]);
+
+        $this->executeCall();
+
+        $response->verifyInvokedOnce('sendJson', [['error' => 'Unprocesable response'], 500]);
     }
 }

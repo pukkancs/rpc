@@ -36,17 +36,17 @@ class Validation
      * @param string $param
      * @param array $params
      * @param string|null $message
-     * @return true
+     * @return mixed
      * @throws ApiException
      */
     public static function paramExists($param, array $params, $message = null)
     {
         if (!array_key_exists($param, $params)) {
 
-            throw new ApiException(($message == null)?'Param ' . $param . ' is missing':$message, 422);
+            throw new ApiException(($message === null)?'Param ' . $param . ' is missing':$message, 422);
         }
 
-        return true;
+        return $params[$param];
     }
 
     /**
@@ -54,7 +54,7 @@ class Validation
      * @param string $param
      * @param array $params
      * @param string|null $message
-     * @return true
+     * @return mixed
      * @throws ApiException
      */
     public static function paramExistsAndNotEmpty($param, array $params, $message = null)
@@ -63,17 +63,17 @@ class Validation
 
         if (!self::checkParamExistsAndNotEmpty($param, $params)) {
 
-            throw new ApiException(($message == null)?'Param ' . $param . ' is empty':$message, 422);
+            throw new ApiException(($message === null)?'Param ' . $param . ' is empty':$message, 422);
         }
 
-        return true;
+        return $params[$param];
     }
 
     /**
      * @param string $param
      * @param array $params
      * @param string|null $message
-     * @return bool
+     * @return array
      * @throws ApiException
      */
     public static function paramExistsAndIsArray($param, array $params, $message = null)
@@ -82,17 +82,17 @@ class Validation
 
         if (!is_array($params[$param])) {
 
-            throw new ApiException(($message == null)?'Param ' . $param . ' is not an array':$message, 422);
+            throw new ApiException(($message === null)?'Param ' . $param . ' is not an array':$message, 422);
         }
 
-        return true;
+        return $params[$param];
     }
 
     /**
      * @param string $param
      * @param array $params
      * @param string|null $message
-     * @return bool
+     * @return array
      * @throws ApiException
      */
     public static function paramExistsAndNotEmptyArray($param, array $params, $message = null)
@@ -101,10 +101,10 @@ class Validation
 
         if (count($params[$param]) == 0) {
 
-            throw new ApiException(($message == null)?'Param ' . $param . ' is an empty array':$message, 422);
+            throw new ApiException(($message === null)?'Param ' . $param . ' is an empty array':$message, 422);
         }
 
-        return true;
+        return $params[$param];
     }
 
     /**

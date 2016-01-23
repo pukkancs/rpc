@@ -43,4 +43,16 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->assertNull(Request::getParam('dsd'));
         $this->assertSame('wew', Request::getParam('dsd', 'wew'));
     }
+
+    public function testGet()
+    {
+        $_GET['xs'] = 125;
+        $this->assertSame(125, Request::getParam('xs'));
+    }
+
+    public function testPost()
+    {
+        $_POST['xy'] = 1256;
+        $this->assertSame(1256, Request::getParam('xy'));
+    }
 }
