@@ -111,7 +111,7 @@ class Validation
      * @author WN
      * @param string $param
      * @param array $params
-     * @return null
+     * @return int|float
      * @throws ApiException
      */
     public static function paramIsNumeric($param, array $params)
@@ -121,7 +121,7 @@ class Validation
 
         if (!is_numeric($params[$param])) {
 
-            throw new ApiException('Wrong format of param: ' . $param, 422);
+            throw new ApiException('Param ' . $param . ' must be numeric', 422);
         }
 
         return $params[$param];
@@ -140,14 +140,13 @@ class Validation
 
         if (!is_string($params[$param])) {
 
-            throw new ApiException('Wrong format of param: ' . $param, 422);
+            throw new ApiException('Param ' . $param . ' is in a wrong format', 422);
         }
 
-        $date = Carbon::parse($params[$param]);
-
-        if (!($date instanceof Carbon)) {
-
-            throw new ApiException('Wrong date format: ' . $param, 422);
+        try{
+            $date = Carbon::parse($params[$param]);
+        } catch (\Exception $e) {
+            throw new ApiException('Param ' . $param . ' is not parsable date', 422, $e);
         }
 
         return $date;

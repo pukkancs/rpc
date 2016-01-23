@@ -26,9 +26,19 @@ class TestTest extends \PHPUnit_Framework_TestCase
     private $action = 'none';
     private $params = [];
 
+    protected function tearDown()
+    {
+        test::clean(); // remove all registered test doubles
+        parent::tearDown();
+    }
+
     protected function getActions()
     {
-        return ['test' => [self::class, 'fakeAction'], 'none' => [self::class, 'nonExisting']];
+        return [
+            'test'  => [self::class, 'fakeAction'],
+            'none'  => [self::class, 'nonExisting'],
+            'exc'   => [self::class, 'actionException'],
+        ];
     }
 
     protected function authenticate()
@@ -49,6 +59,11 @@ class TestTest extends \PHPUnit_Framework_TestCase
     private function fakeAction(array $params)
     {
         return $params;
+    }
+
+    private function actionException(array $params)
+    {
+        throw new \Exception('Test 123');
     }
 
     public function testNotAuthenticated()
@@ -80,5 +95,40 @@ class TestTest extends \PHPUnit_Framework_TestCase
     public function testGetAction()
     {
         $this->assertCount(2, $this->getAction('test'));
+    }
+
+    public function testExecuteCall()
+    {
+        $this->params = ['aaa'];
+        $this->action = 'test';
+        $response = test::double('PayBreak\Rpc\Response', ['sendJson' => true]);
+
+        $this->executeCall();
+
+        $response->verifyInvokedOnce('sendJson', [['aaa'], 200]);
+    }
+
+    public function testExecuteErrorCall()
+    {
+        $this->params = ['aaa'];
+        $this->action = 'test';
+        $this->auth = false;
+        $response = test::double('PayBreak\Rpc\Response', ['sendJson' => true]);
+
+        $this->executeCall();
+
+        $response->verifyInvokedOnce('sendJson', [['error' => 'Authentication failed'], 401]);
+    }
+
+    public function testExecuteExceptionCall()
+    {
+        $this->params = ['aaa'];
+        $this->action = 'exc';
+        $this->auth = true;
+        $response = test::double('PayBreak\Rpc\Response', ['sendJson' => true]);
+
+        $this->executeCall();
+
+        $response->verifyInvokedOnce('sendJson', [['error' => 'Test 123'], 500]);
     }
 }

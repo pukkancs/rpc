@@ -81,19 +81,19 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
     public function testNotParamExistsAndIsArray()
     {
         $this->setExpectedException('PayBreak\Rpc\ApiException', 'Param xxx is missing');
-        $this->assertTrue(Validation::paramExistsAndIsArray('xxx', []));
+        Validation::paramExistsAndIsArray('xxx', []);
     }
 
     public function testFalseParamExistsAndIsArray()
     {
         $this->setExpectedException('PayBreak\Rpc\ApiException', 'Param xxx is not an array');
-        $this->assertTrue(Validation::paramExistsAndIsArray('xxx', ['xxx' => 123]));
+        Validation::paramExistsAndIsArray('xxx', ['xxx' => 123]);
     }
 
     public function testMessageFalseParamExistsAndIsArray()
     {
         $this->setExpectedException('PayBreak\Rpc\ApiException', 'Testing');
-        $this->assertTrue(Validation::paramExistsAndIsArray('xxx', ['xxx' => 123], 'Testing'));
+        Validation::paramExistsAndIsArray('xxx', ['xxx' => 123], 'Testing');
     }
 
     public function testParamExistsAndNotEmptyArray()
@@ -104,12 +104,43 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
     public function testFalseParamExistsAndNotEmptyArray()
     {
         $this->setExpectedException('PayBreak\Rpc\ApiException', 'Param xxx is an empty array');
-        $this->assertTrue(Validation::paramExistsAndNotEmptyArray('xxx', ['xxx' => []]));
+        Validation::paramExistsAndNotEmptyArray('xxx', ['xxx' => []]);
     }
 
     public function testMessageFalseParamExistsAndNotEmptyArray()
     {
         $this->setExpectedException('PayBreak\Rpc\ApiException', 'Testing');
-        $this->assertTrue(Validation::paramExistsAndNotEmptyArray('xxx', ['xxx' => []], 'Testing'));
+        Validation::paramExistsAndNotEmptyArray('xxx', ['xxx' => []], 'Testing');
+    }
+
+    public function testParamIsNumeric()
+    {
+        $this->assertSame(123, Validation::paramIsNumeric('c', ['c' => 123]));
+        $this->assertSame(123.01, Validation::paramIsNumeric('c', ['c' => 123.01]));
+    }
+
+    public function testFalseParamIsNumeric()
+    {
+        $this->setExpectedException('PayBreak\Rpc\ApiException', 'Param c must be numeric', 422);
+        Validation::paramIsNumeric('c', ['c' => 'xxx']);
+    }
+
+    public function testProcessDateParam()
+    {
+        $this->assertInstanceOf('Carbon\Carbon', Validation::processDateParam('a', ['a' => 'today']));
+        $this->assertInstanceOf('Carbon\Carbon', Validation::processDateParam('a', ['a' => '2016-01-01 12:03']));
+        $this->assertInstanceOf('Carbon\Carbon', Validation::processDateParam('a', ['a' => '1234556789']));
+    }
+
+    public function testWrongFormatProcessDateParam()
+    {
+        $this->setExpectedException('PayBreak\Rpc\ApiException', 'Param a is in a wrong format', 422);
+        Validation::processDateParam('a', ['a' => 123]);
+    }
+
+    public function testWrongDateProcessDateParam()
+    {
+        $this->setExpectedException('PayBreak\Rpc\ApiException', 'Param a is not parsable date', 422);
+        Validation::processDateParam('a', ['a' => 'ds fs df 123']);
     }
 }
