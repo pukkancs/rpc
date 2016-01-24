@@ -18,8 +18,45 @@ $ composer require paybreak/rpc
 ## Usage
 
 ``` php
+class MyApi
+{
+    use \PayBreak\Rpc\Api;
+
+    protected function getActions()
+    {
+        return [
+            'ping' => [self::class, 'ping'],
+        ];
+    }
+
+    protected function authenticate()
+    {
+        return true;
+    }
+
+    protected function getRequestAction()
+    {
+        return \PayBreak\Rpc\Request::getParam('action');
+    }
+
+    protected function getRequestParams()
+    {
+        return (array) \PayBreak\Rpc\Request::getParam('params');
+    }
+    
+    protected function ping(array $params)
+    {
+        return ['pong' => true, 'request' => $params];
+    }
+}
+
+$obj = new MyApi();
+
+$obj->executeCall();
 
 ```
+
+Basic [demo](demo)
 
 ## Change log
 
