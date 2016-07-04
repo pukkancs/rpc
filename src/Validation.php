@@ -148,10 +148,7 @@ class Validation
             throw $e;
         }
 
-        if (!is_string($params[$param])) {
-
-            throw new ApiException('Param ' . $param . ' is in a wrong format', 422);
-        }
+        self::isString($param, $params);
 
         try{
             $date = Carbon::parse($params[$param]);
@@ -160,5 +157,19 @@ class Validation
         }
 
         return $date;
+    }
+
+    /**
+     * @author WN
+     * @param $param
+     * @param array $params
+     * @throws ApiException
+     */
+    private static function isString($param, array $params)
+    {
+        if (!is_string($params[$param])) {
+
+            throw new ApiException('Param ' . $param . ' is in a wrong format', 422);
+        }
     }
 }
