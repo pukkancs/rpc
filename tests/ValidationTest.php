@@ -160,4 +160,11 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
             Validation::processDateParam('a', ['a' => 'today'], $date->subDays(100))->format('Y-m-d')
         );
     }
+
+    public function testMissingProcessDateParam()
+    {
+        $this->setExpectedException('PayBreak\Rpc\ApiException', 'Param a is missing', 422);
+
+        Validation::processDateParam('a', []);
+    }
 }
