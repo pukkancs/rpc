@@ -10,6 +10,8 @@
 
 namespace PayBreak\Rpc\Test;
 
+use Carbon\Carbon;
+use JMS\Serializer\Tests\Fixtures\Discriminator\Car;
 use PayBreak\Rpc\Validation;
 
 /**
@@ -140,5 +142,22 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('PayBreak\Rpc\ApiException', 'Param a is not parsable date', 422);
         Validation::processDateParam('a', ['a' => 'ds fs df 123']);
+    }
+
+    public function testDefaultProcessDateParam()
+    {
+        $date = new Carbon();
+
+        $this->assertSame($date, Validation::processDateParam('a', [], $date));
+    }
+
+    public function testNoDefaultProcessDateParam()
+    {
+        $date = new Carbon();
+
+        $this->assertSame(
+            Carbon::now()->format('Y-m-d'),
+            Validation::processDateParam('a', ['a' => 'today'], $date->subDays(100))->format('Y-m-d')
+        );
     }
 }

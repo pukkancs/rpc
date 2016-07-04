@@ -131,12 +131,22 @@ class Validation
      * @author WN
      * @param string $param
      * @param array $params
+     * @param Carbon|null $default
      * @return Carbon
      * @throws ApiException
      */
-    public static function processDateParam($param, array $params)
+    public static function processDateParam($param, array $params, Carbon $default = null)
     {
-        self::paramExistsAndNotEmpty($param, $params);
+        try {
+            self::paramExistsAndNotEmpty($param, $params);
+        } catch (ApiException $e) {
+
+            if ($default instanceof Carbon) {
+                return $default;
+            }
+
+            throw $e;
+        }
 
         if (!is_string($params[$param])) {
 
