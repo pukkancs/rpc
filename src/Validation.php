@@ -140,12 +140,7 @@ class Validation
         try {
             self::paramExistsAndNotEmpty($param, $params);
         } catch (ApiException $e) {
-
-            if ($default instanceof Carbon) {
-                return $default;
-            }
-
-            throw $e;
+           return self::checkDefaultDate($e, $default);
         }
 
         self::isString($param, $params);
@@ -157,6 +152,22 @@ class Validation
         }
 
         return $date;
+    }
+
+    /**
+     * @author WN
+     * @param ApiException $e
+     * @param Carbon|null $default
+     * @return Carbon
+     * @throws ApiException
+     */
+    private static function checkDefaultDate(ApiException $e, Carbon $default = null)
+    {
+        if ($default instanceof Carbon) {
+            return $default;
+        }
+
+        throw $e;
     }
 
     /**
