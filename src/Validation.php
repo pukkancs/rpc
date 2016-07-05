@@ -131,17 +131,19 @@ class Validation
      * @author WN
      * @param string $param
      * @param array $params
+     * @param Carbon|null $default
      * @return Carbon
      * @throws ApiException
      */
-    public static function processDateParam($param, array $params)
+    public static function processDateParam($param, array $params, Carbon $default = null)
     {
-        self::paramExistsAndNotEmpty($param, $params);
-
-        if (!is_string($params[$param])) {
-
-            throw new ApiException('Param ' . $param . ' is in a wrong format', 422);
+        try {
+            self::paramExistsAndNotEmpty($param, $params);
+        } catch (ApiException $e) {
+           return self::checkDefaultDate($e, $default);
         }
+
+        self::isString($param, $params);
 
         try{
             $date = Carbon::parse($params[$param]);
@@ -150,5 +152,35 @@ class Validation
         }
 
         return $date;
+    }
+
+    /**
+     * @author WN
+     * @param ApiException $e
+     * @param Carbon|null $default
+     * @return Carbon
+     * @throws ApiException
+     */
+    private static function checkDefaultDate(ApiException $e, Carbon $default = null)
+    {
+        if ($default instanceof Carbon) {
+            return $default;
+        }
+
+        throw $e;
+    }
+
+    /**
+     * @author WN
+     * @param $param
+     * @param array $params
+     * @throws ApiException
+     */
+    private static function isString($param, array $params)
+    {
+        if (!is_string($params[$param])) {
+
+            throw new ApiException('Param ' . $param . ' is in a wrong format', 422);
+        }
     }
 }
