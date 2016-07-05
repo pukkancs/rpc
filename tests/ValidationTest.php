@@ -11,7 +11,6 @@
 namespace PayBreak\Rpc\Test;
 
 use Carbon\Carbon;
-use JMS\Serializer\Tests\Fixtures\Discriminator\Car;
 use PayBreak\Rpc\Validation;
 
 /**
