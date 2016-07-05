@@ -1,3 +1,9 @@
+# 0.2.1
+2016-01-24
+
+## Features
+- `Validation::processDateParam()` added `$default` param
+
 # 0.1.1
 2016-01-24
 
