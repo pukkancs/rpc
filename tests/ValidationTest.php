@@ -47,7 +47,6 @@ class ValidationTest extends TestCase
      */
     public function testFalseParamExists()
     {
-
         Validation::paramExists('xxx', []);
     }
 
@@ -181,7 +180,7 @@ class ValidationTest extends TestCase
      */
     public function testWrongDateProcessDateParam()
     {
-          Validation::processDateParam('a', ['a' => 'ds fs df 123']);
+        Validation::processDateParam('a', ['a' => 'ds fs df 123']);
     }
 
     public function testDefaultProcessDateParam()

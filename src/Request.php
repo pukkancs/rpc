@@ -36,11 +36,14 @@ final class Request
         return self::$instance;
     }
 
-    private function __construct() {
+    private function __construct()
+    {
         $this->body = $this->getRequest();
     }
 
-    private function __clone() { }
+    private function __clone()
+    {
+    }
 
     /**
      * @author WN
@@ -87,7 +90,6 @@ final class Request
         $body = json_decode($request, true);
 
         if (is_array($body)) {
-
             return $body;
         }
 

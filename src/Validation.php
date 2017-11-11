@@ -42,7 +42,6 @@ class Validation
     public static function paramExists($param, array $params, $message = null)
     {
         if (!array_key_exists($param, $params)) {
-
             throw new ApiException(($message === null) ? 'Param ' . $param . ' is missing' : $message, 422);
         }
 
@@ -62,7 +61,6 @@ class Validation
         self::paramExists($param, $params);
 
         if (!self::checkParamExistsAndNotEmpty($param, $params)) {
-
             throw new ApiException(($message === null) ? 'Param ' . $param . ' is empty' : $message, 422);
         }
 
@@ -81,7 +79,6 @@ class Validation
         self::paramExistsAndNotEmpty($param, $params);
 
         if (!is_array($params[$param])) {
-
             throw new ApiException(($message === null) ? 'Param ' . $param . ' is not an array' : $message, 422);
         }
 
@@ -100,7 +97,6 @@ class Validation
         self::paramExistsAndIsArray($param, $params);
 
         if (count($params[$param]) == 0) {
-
             throw new ApiException(($message === null) ? 'Param ' . $param . ' is an empty array' : $message, 422);
         }
 
@@ -116,11 +112,9 @@ class Validation
      */
     public static function paramIsNumeric($param, array $params)
     {
-
         self::paramExistsAndNotEmpty($param, $params);
 
         if (!is_numeric($params[$param])) {
-
             throw new ApiException('Param ' . $param . ' must be numeric', 422);
         }
 
@@ -179,7 +173,6 @@ class Validation
     private static function isString($param, array $params)
     {
         if (!is_string($params[$param])) {
-
             throw new ApiException('Param ' . $param . ' is in a wrong format', 422);
         }
     }
