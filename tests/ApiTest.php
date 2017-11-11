@@ -18,7 +18,7 @@ use PayBreak\Rpc\Api;
  *
  * @author WN
  */
-class TestTest extends \PHPUnit_Framework_TestCase
+class ApiTest extends test
 {
     use Api;
 
@@ -72,29 +72,45 @@ class TestTest extends \PHPUnit_Framework_TestCase
         return 'acdf';
     }
 
+    /**
+     * @expectedException \PayBreak\Rpc\ApiException
+     * @expectedExceptionMessage Authentication failed
+     * @expectedExceptionCode 401
+     */
     public function testNotAuthenticated()
     {
         $this->auth = false;
-        $this->setExpectedException('PayBreak\Rpc\ApiException', 'Authentication failed', 401);
         $this->executeAction([self::class, 'fakeAction']);
     }
 
+    /**
+     * @expectedException \PayBreak\Rpc\ApiException
+     * @expectedExceptionMessage Params must be an array
+     * @expectedExceptionCode 422
+     */
     public function testWrongParamas()
     {
         $this->params = 'dsdsd';
-        $this->setExpectedException('PayBreak\Rpc\ApiException', 'Params must be an array', 422);
         $this->executeAction([self::class, 'fakeAction']);
     }
 
+    /**
+     * @expectedException \PayBreak\Rpc\ApiException
+     * @expectedExceptionMessage Non existing action
+     * @expectedExceptionCode 400
+     */
     public function testNonExistingAction()
     {
-        $this->setExpectedException('PayBreak\Rpc\ApiException', 'Non existing action', 400);
         $this->getAction('sss');
     }
 
+    /**
+     * @expectedException \PayBreak\Rpc\ApiException
+     * @expectedExceptionMessage Method not found
+     * @expectedExceptionCode 400
+     */
     public function testMethodNotFound()
     {
-        $this->setExpectedException('PayBreak\Rpc\ApiException', 'Method not found', 400);
         $this->getAction('none');
     }
 

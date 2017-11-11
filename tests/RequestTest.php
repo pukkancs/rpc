@@ -12,13 +12,14 @@ namespace PayBreak\Rpc\Test;
 
 use AspectMock\Test as test;
 use PayBreak\Rpc\Request;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Request Test
  *
  * @author WN
  */
-class RequestTest extends \PHPUnit_Framework_TestCase
+class RequestTest extends TestCase
 {
     protected function tearDown()
     {

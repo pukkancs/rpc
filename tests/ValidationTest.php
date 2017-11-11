@@ -10,6 +10,7 @@
 
 namespace PayBreak\Rpc\Test;
 
+use PHPUnit\Framework\TestCase;
 use Carbon\Carbon;
 use PayBreak\Rpc\Validation;
 
@@ -18,7 +19,7 @@ use PayBreak\Rpc\Validation;
  *
  * @author WN
  */
-class ValidationTest extends \PHPUnit_Framework_TestCase
+class ValidationTest extends TestCase
 {
     public function testTrueCheckParamExistsAndNotEmpty()
     {
@@ -40,15 +41,22 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('', Validation::paramExists('xxx', ['xxx' => '']));
     }
 
+    /**
+     * @expectedException \PayBreak\Rpc\ApiException
+     * @expectedExceptionMessage Param xxx is missing
+     */
     public function testFalseParamExists()
     {
-        $this->setExpectedException('PayBreak\Rpc\ApiException', 'Param xxx is missing');
+
         Validation::paramExists('xxx', []);
     }
 
+    /**
+     * @expectedException \PayBreak\Rpc\ApiException
+     * @expectedExceptionMessage Testing
+     */
     public function testMessageParamExists()
     {
-        $this->setExpectedException('PayBreak\Rpc\ApiException', 'Testing');
         Validation::paramExists('xxx', [], 'Testing');
     }
 
@@ -60,15 +68,21 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(null, Validation::paramExistsAndNotEmpty('xxx', ['xxx' => null]));
     }
 
+    /**
+     * @expectedException \PayBreak\Rpc\ApiException
+     * @expectedExceptionMessage Param xxx is missing
+     */
     public function testFalseParamExistsAndNotEmpty()
     {
-        $this->setExpectedException('PayBreak\Rpc\ApiException', 'Param xxx is missing');
         Validation::paramExistsAndNotEmpty('xxx', []);
     }
 
+    /**
+     * @expectedException \PayBreak\Rpc\ApiException
+     * @expectedExceptionMessage Param xxx is empty
+     */
     public function testEmptyParamExistsAndNotEmpty()
     {
-        $this->setExpectedException('PayBreak\Rpc\ApiException', 'Param xxx is empty');
         Validation::paramExistsAndNotEmpty('xxx', ['xxx' => '']);
     }
 
@@ -77,21 +91,30 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
         $this->assertSame([], Validation::paramExistsAndIsArray('xxx', ['xxx' => []]));
     }
 
+    /**
+     * @expectedException \PayBreak\Rpc\ApiException
+     * @expectedExceptionMessage Param xxx is missing
+     */
     public function testNotParamExistsAndIsArray()
     {
-        $this->setExpectedException('PayBreak\Rpc\ApiException', 'Param xxx is missing');
         Validation::paramExistsAndIsArray('xxx', []);
     }
 
+    /**
+     * @expectedException \PayBreak\Rpc\ApiException
+     * @expectedExceptionMessage Param xxx is not an array
+     */
     public function testFalseParamExistsAndIsArray()
     {
-        $this->setExpectedException('PayBreak\Rpc\ApiException', 'Param xxx is not an array');
         Validation::paramExistsAndIsArray('xxx', ['xxx' => 123]);
     }
 
+    /**
+     * @expectedException \PayBreak\Rpc\ApiException
+     * @expectedExceptionMessage Testing
+     */
     public function testMessageFalseParamExistsAndIsArray()
     {
-        $this->setExpectedException('PayBreak\Rpc\ApiException', 'Testing');
         Validation::paramExistsAndIsArray('xxx', ['xxx' => 123], 'Testing');
     }
 
@@ -100,15 +123,21 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
         $this->assertSame([123], Validation::paramExistsAndNotEmptyArray('xxx', ['xxx' => [123]]));
     }
 
+    /**
+     * @expectedException \PayBreak\Rpc\ApiException
+     * @expectedExceptionMessage Param xxx is an empty array
+     */
     public function testFalseParamExistsAndNotEmptyArray()
     {
-        $this->setExpectedException('PayBreak\Rpc\ApiException', 'Param xxx is an empty array');
         Validation::paramExistsAndNotEmptyArray('xxx', ['xxx' => []]);
     }
 
+    /**
+     * @expectedException \PayBreak\Rpc\ApiException
+     * @expectedExceptionMessage Testing
+     */
     public function testMessageFalseParamExistsAndNotEmptyArray()
     {
-        $this->setExpectedException('PayBreak\Rpc\ApiException', 'Testing');
         Validation::paramExistsAndNotEmptyArray('xxx', ['xxx' => []], 'Testing');
     }
 
@@ -118,9 +147,13 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(123.01, Validation::paramIsNumeric('c', ['c' => 123.01]));
     }
 
+    /**
+     * @expectedException \PayBreak\Rpc\ApiException
+     * @expectedExceptionMessage Param c must be numeric
+     * @expectedExceptionCode 422
+     */
     public function testFalseParamIsNumeric()
     {
-        $this->setExpectedException('PayBreak\Rpc\ApiException', 'Param c must be numeric', 422);
         Validation::paramIsNumeric('c', ['c' => 'xxx']);
     }
 
@@ -131,16 +164,24 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Carbon\Carbon', Validation::processDateParam('a', ['a' => '1234556789']));
     }
 
+    /**
+     * @expectedException \PayBreak\Rpc\ApiException
+     * @expectedExceptionMessage Param a is in a wrong format
+     * @expectedExceptionCode 422
+     */
     public function testWrongFormatProcessDateParam()
     {
-        $this->setExpectedException('PayBreak\Rpc\ApiException', 'Param a is in a wrong format', 422);
         Validation::processDateParam('a', ['a' => 123]);
     }
 
+    /**
+     * @expectedException \PayBreak\Rpc\ApiException
+     * @expectedExceptionMessage Param a is not parsable date
+     * @expectedExceptionCode 422
+     */
     public function testWrongDateProcessDateParam()
     {
-        $this->setExpectedException('PayBreak\Rpc\ApiException', 'Param a is not parsable date', 422);
-        Validation::processDateParam('a', ['a' => 'ds fs df 123']);
+          Validation::processDateParam('a', ['a' => 'ds fs df 123']);
     }
 
     public function testDefaultProcessDateParam()
@@ -160,10 +201,13 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @expectedException \PayBreak\Rpc\ApiException
+     * @expectedExceptionMessage Param a is missing
+     * @expectedExceptionCode 422
+     */
     public function testMissingProcessDateParam()
     {
-        $this->setExpectedException('PayBreak\Rpc\ApiException', 'Param a is missing', 422);
-
         Validation::processDateParam('a', []);
     }
 }
