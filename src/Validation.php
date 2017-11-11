@@ -28,7 +28,7 @@ class Validation
      */
     public static function checkParamExistsAndNotEmpty($param, array $params)
     {
-        return (bool) (array_key_exists($param, $params) && $params[$param] !== '');
+        return (bool)(array_key_exists($param, $params) && $params[$param] !== '');
     }
 
     /**
@@ -43,7 +43,7 @@ class Validation
     {
         if (!array_key_exists($param, $params)) {
 
-            throw new ApiException(($message === null)?'Param ' . $param . ' is missing':$message, 422);
+            throw new ApiException(($message === null) ? 'Param ' . $param . ' is missing' : $message, 422);
         }
 
         return $params[$param];
@@ -63,7 +63,7 @@ class Validation
 
         if (!self::checkParamExistsAndNotEmpty($param, $params)) {
 
-            throw new ApiException(($message === null)?'Param ' . $param . ' is empty':$message, 422);
+            throw new ApiException(($message === null) ? 'Param ' . $param . ' is empty' : $message, 422);
         }
 
         return $params[$param];
@@ -82,7 +82,7 @@ class Validation
 
         if (!is_array($params[$param])) {
 
-            throw new ApiException(($message === null)?'Param ' . $param . ' is not an array':$message, 422);
+            throw new ApiException(($message === null) ? 'Param ' . $param . ' is not an array' : $message, 422);
         }
 
         return $params[$param];
@@ -101,7 +101,7 @@ class Validation
 
         if (count($params[$param]) == 0) {
 
-            throw new ApiException(($message === null)?'Param ' . $param . ' is an empty array':$message, 422);
+            throw new ApiException(($message === null) ? 'Param ' . $param . ' is an empty array' : $message, 422);
         }
 
         return $params[$param];
@@ -140,12 +140,12 @@ class Validation
         try {
             self::paramExistsAndNotEmpty($param, $params);
         } catch (ApiException $e) {
-           return self::checkDefaultDate($e, $default);
+            return self::checkDefaultDate($e, $default);
         }
 
         self::isString($param, $params);
 
-        try{
+        try {
             $date = Carbon::parse($params[$param]);
         } catch (\Exception $e) {
             throw new ApiException('Param ' . $param . ' is not parsable date', 422, $e);
