@@ -67,7 +67,6 @@ trait Api
             }
 
             Response::sendJson($result);
-
         } catch (ApiException $e) {
             Response::sendJson(['error' => $e->getMessage()], $e->getCode());
         } catch (\Exception $e) {
