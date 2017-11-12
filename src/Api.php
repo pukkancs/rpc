@@ -67,13 +67,9 @@ trait Api
             }
 
             Response::sendJson($result);
-
         } catch (ApiException $e) {
-
             Response::sendJson(['error' => $e->getMessage()], $e->getCode());
-
         } catch (\Exception $e) {
-
             Response::sendJson(['error' => $e->getMessage()], 500);
         }
     }
@@ -90,7 +86,6 @@ trait Api
         $actions = self::getActions();
 
         if (!array_key_exists($action, $actions)) {
-
             throw new ApiException('Non existing action', 400);
         }
 

@@ -10,6 +10,7 @@
 
 namespace PayBreak\Rpc\Test;
 
+use PHPUnit\Framework\TestCase;
 use AspectMock\Test as test;
 use PayBreak\Rpc\Response;
 
@@ -19,7 +20,7 @@ use PayBreak\Rpc\Response;
  * @author WN
  * @package PayBreak\Rpc\Test
  */
-class ResponseTest extends \PHPUnit_Framework_TestCase
+class ResponseTest extends TestCase
 {
     protected function tearDown()
     {
